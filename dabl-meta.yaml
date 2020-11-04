@@ -17,7 +17,35 @@ integration_types:
       description: Allows direct messages sent to a Symphony bot to be recorded on the ledger
       entrypoint: symphony_int.integration_symphony_receive_dm:integration_symphony_receive_dm_main
       runtime: python-direct
-      fields: []
+      fields:
+        - id: host
+          name: Host of symphony pod
+          description: Host of symphony pod
+          field_type: text
+        - id: port
+          name: Port of symphony pod
+          description: Port of symphony pod
+          field_type: integer
+        - id: private_key
+          name: Symphony RSA Private Key
+          description: RSA Private Key created for Symphony bot
+          field_type: clob
+        - id: bot_username
+          name: Symphony Bot Username
+          description: Username of Symphony bot
+          field_type: text
+        - id: bot_email
+          name: Email address of Symphony bot
+          description: Email address of Symphony bot
+          field_type: text
+        - id: token_refresh_period
+          name: Token refresh period
+          description: Token refresh period
+          field_type: text
+        - id: interval
+          name: Refresh interval
+          description: Interval at which to check for new messages
+          field_type: integer
     - id: com.projectdabl.integrations.symphony_send_message
       name: Symphony Send Message
       description: Allows outbound messages recorded on a ledger to be sent to Symphony
@@ -25,19 +53,27 @@ integration_types:
       env_class: symphony_int.integration_symphony_send_message:IntegrationSymphonySendMessageEnv
       runtime: python-direct
       fields:
-        - id: symphonyRsaKey
+        - id: host
+          name: Host of symphony pod
+          description: Host of symphony pod
+          field_type: text
+        - id: port
+          name: Port of symphony pod
+          description: Port of symphony pod
+          field_type: integer
+        - id: private_key
           name: Symphony RSA Private Key
           description: RSA Private Key created for Symphony bot
-          field_type: text
-        - id: symphonyCerts
-          name: Symphony Certifications
-          description: Symphony Certificate Truststore
-          field_type: text
-        - id: symphonyBotUsername
+          field_type: clob
+        - id: bot_username
           name: Symphony Bot Username
           description: Username of Symphony bot
           field_type: text
-        - id: symphonyBotEmailAddress
+        - id: bot_email
           name: Email address of Symphony bot
           description: Email address of Symphony bot
+          field_type: text
+        - id: token_refresh_period
+          name: Token refresh period
+          description: Token refresh period
           field_type: text
