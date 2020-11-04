@@ -11,6 +11,7 @@ parties:
 - Integration
 exposed-modules:
 - SymphonyIntegration.InboundDirectMessage
+- SymphonyIntegration.InboundElementAction
 - SymphonyIntegration.OutboundMessage
 dependencies:
 - daml-prim

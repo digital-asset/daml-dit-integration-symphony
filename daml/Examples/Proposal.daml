@@ -1,0 +1,24 @@
+module Examples.Proposal where
+
+
+template Proposal
+  with
+    company : Party
+    employee : Party
+    proposalText : Text
+  where
+    signatory company
+    controller company can
+      Proposal_Accept : ContractId Agreement
+        do
+          create Agreement with agreement = proposalText, ..
+      Proposal_Reject : ()
+        do return ()
+
+
+template Agreement
+  with
+    company : Party
+    agreement : Text
+  where
+    signatory company
