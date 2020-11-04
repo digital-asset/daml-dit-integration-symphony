@@ -1,4 +1,6 @@
 ./lib/PyYAML-5.3.1.tar.gz
+./lib/python-json-logger-0.1.11.tar.gz
+./lib/yattag-1.12.2.tar.gz
 dazl==7.0.2
 yarl==1.5.1
 multidict==4.7.6
