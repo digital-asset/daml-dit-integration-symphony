@@ -1,0 +1,43 @@
+## Copyright (c) 2020, Digital Asset (Switzerland) GmbH and/or its affiliates.
+## SPDX-License-Identifier: Apache-2.0
+
+catalog:
+    name: dabl-integration-symphony
+    group_id: com.digitalasset
+    version: 0.6.0
+    short_description: Symphony
+    description: Symphony Send and Receive
+    author: Digital Asset (Switzerland) GmbH
+    license: Apache-2.0
+    tags: [ integration ]
+    icon_file: slack-icon.svg
+integration_types:
+    - id: com.projectdabl.integrations.symphony_receive_dm
+      name: Symphony Receive Direct Message
+      description: Allows direct messages sent to a Symphony bot to be recorded on the ledger
+      entrypoint: symphony_int.integration_symphony_receive_dm:integration_symphony_receive_dm_main
+      runtime: python-direct
+      fields: []
+    - id: com.projectdabl.integrations.symphony_send_message
+      name: Symphony Send Message
+      description: Allows outbound messages recorded on a ledger to be sent to Symphony
+      entrypoint: symphony_int.integration_symphony_send_message:integration_symphony_send_main
+      env_class: symphony_int.integration_symphony_send_message:IntegrationSymphonySendMessageEnv
+      runtime: python-direct
+      fields:
+        - id: symphonyRsaKey
+          name: Symphony RSA Private Key
+          description: RSA Private Key created for Symphony bot
+          field_type: text
+        - id: symphonyCerts
+          name: Symphony Certifications
+          description: Symphony Certificate Truststore
+          field_type: text
+        - id: symphonyBotUsername
+          name: Symphony Bot Username
+          description: Username of Symphony bot
+          field_type: text
+        - id: symphonyBotEmailAddress
+          name: Email address of Symphony bot
+          description: Email address of Symphony bot
+          field_type: text

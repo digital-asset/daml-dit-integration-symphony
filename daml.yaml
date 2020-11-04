@@ -1,0 +1,17 @@
+## Copyright (c) 2020, Digital Asset (Switzerland) GmbH and/or its affiliates.
+## SPDX-License-Identifier: Apache-2.0
+
+sdk-version: 1.4.0
+name: dabl-integration-symphony
+version: 1.0.0
+source: daml/Modules.daml
+parties:
+- Alice
+- Bob
+- Integration
+exposed-modules:
+- SymphonyIntegration.InboundDirectMessage
+- SymphonyIntegration.OutboundMessage
+dependencies:
+- daml-prim
+- daml-stdlib

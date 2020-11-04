@@ -1,0 +1,12 @@
+module SymphonyIntegration.InboundElementAction where
+
+template InboundElementAction
+  with
+    integrationParty : Party
+    symphonyUser : Text
+    symphonyStreamId : Text
+    formId : Text
+    action : Text
+    formJSON : Text -- warning
+  where
+    signatory integrationParty

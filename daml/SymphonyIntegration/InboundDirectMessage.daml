@@ -1,0 +1,11 @@
+module SymphonyIntegration.InboundDirectMessage where
+
+template InboundDirectMessage
+  with
+    integrationParty : Party
+    symphonyChannel : Text
+    symphonyUser : Text
+    symphonyStreamId : Text
+    messageText : Text
+  where
+    signatory integrationParty

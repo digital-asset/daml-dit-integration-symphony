@@ -1,0 +1,28 @@
+-- Copyright (c) 2020, Digital Asset (Switzerland) GmbH and/or its affiliates.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+
+module SymphonyIntegration.PingPongBot where
+
+import SymphonyIntegration.InboundDirectMessage
+import SymphonyIntegration.OutboundMessage
+
+template PingPongBot
+  with
+    integrationParty : Party
+  where
+    signatory integrationParty
+
+    controller integrationParty can
+      PingPongBot_AcceptMessage : ContractId OutboundMessage
+        with
+          cid : ContractId InboundDirectMessage
+        do
+          pingMessage <- fetch cid
+
+          create OutboundMessage with
+            integrationParty
+            symphonyStreamId = pingMessage.symphonyStreamId
+            messageText="PONG! (I see this from you: " <> pingMessage.messageText <> ")"
+            attemptCount=0
