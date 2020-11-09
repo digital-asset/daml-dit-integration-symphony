@@ -39,6 +39,9 @@ def integration_symphony_send_main(
             env.host, env.port,
             env.bot_username, env.bot_email, env.token_refresh_period)
 
+    # config = configure._makeConfig(env.host, env.port, env.bot_username, env.bot_email, env.token_refresh_period)
+    # configure._load_config(config) # getConfigDict())
+
     auth = SymBotRSAStringAuth(configure, env.private_key)
     auth.authenticate()
 
@@ -50,6 +53,6 @@ def integration_symphony_send_main(
         LOG.info('symphony send message - created: %r', event)
         message = event.cdata['messageText']
         stream_id = event.cdata['symphonyStreamId']
-        bot_client.get_message_client().send_msg(stream_id, dict(message=message))
+        bot_client.get_message_client().send_msg(stream_id, dict(message=f'<messageML>{message}</messageML>'))
+        # return []
         return [exercise(event.cid, 'Archive')]
-

@@ -12,10 +12,46 @@ catalog:
     tags: [ integration ]
     icon_file: slack-icon.svg
 integration_types:
+    - id: com.projectdabl.integrations.symphony
+      name: Symphony Send and Receive Direct Messages
+      description: Allows direct messages sent and received to a Symphony bot to be recorded on the ledger
+      entrypoint: symphony_int.integration_symphony:integration_symphony_main
+      env_class: symphony_int.integration_symphony:IntegrationSymphonyEnv
+      runtime: python-direct
+      fields:
+        - id: host
+          name: Host of symphony pod
+          description: Host of symphony pod
+          field_type: text
+        - id: port
+          name: Port of symphony pod
+          description: Port of symphony pod
+          field_type: integer
+        - id: private_key
+          name: Symphony RSA Private Key
+          description: RSA Private Key created for Symphony both (should be text area)
+          field_type: clob
+        - id: bot_username
+          name: Symphony Bot Username
+          description: Username of Symphony bot
+          field_type: text
+        - id: bot_email
+          name: Email address of Symphony bot
+          description: Email address of Symphony bot
+          field_type: text
+        - id: token_refresh_period
+          name: Token refresh period
+          description: Token refresh period
+          field_type: text
+        - id: interval
+          name: Refresh interval
+          description: Interval at which to check for new messages
+          field_type: integer
     - id: com.projectdabl.integrations.symphony_receive_dm
       name: Symphony Receive Direct Message
       description: Allows direct messages sent to a Symphony bot to be recorded on the ledger
       entrypoint: symphony_int.integration_symphony_receive_dm:integration_symphony_receive_dm_main
+      env_class: symphony_int.integration_symphony_receive_dm:IntegrationSymphonyReceiveDMEnv
       runtime: python-direct
       fields:
         - id: host

@@ -23,6 +23,8 @@ from sym_api_client_python.listeners.elements_listener import ElementsActionList
 from sym_api_client_python.processors.sym_message_parser import SymMessageParser
 from sym_api_client_python.processors.sym_elements_parser import SymElementsParser
 
+from sym_api_client_python.listeners.connection_listener import ConnectionListener
+
 from .config import SymObjectConfig
 from .rsa_string_auth import SymBotRSAStringAuth
 
@@ -33,6 +35,7 @@ class SYMPHONY:
     InboundElementAction = 'SymphonyIntegration.InboundElementAction.InboundElementAction'
     OutboundMessage = 'SymphonyIntegration.OutboundMessage:OutboundMessage'
     UserStream = 'Symphony:UserStream'
+
 
 @dataclass
 class IntegrationSymphonyReceiveDMEnv(IntegrationEnvironment):
@@ -58,8 +61,11 @@ def integration_symphony_receive_dm_main(
 
     configure = SymObjectConfig(
             env.host, env.port, env.bot_username, env.bot_email, env.token_refresh_period)
+    # config = configure._makeConfig(env.host, env.port, env.bot_username, env.bot_email, env.token_refresh_period)
+    # configure._load_config(config) # getConfigDict())
 
     auth = SymBotRSAStringAuth(configure, env.private_key)
+            # getKey()) # env.private_key)
     auth.authenticate()
 
     bot_client = SymBotClient(auth, configure)
@@ -68,6 +74,7 @@ def integration_symphony_receive_dm_main(
     datafeed_event_service = bot_client.get_async_datafeed_event_service()
 
     datafeed_event_service.add_im_listener(IMListenerImpl(env, inbound_queue))
+    datafeed_event_service.add_connection_listener(ConnectionListenerImpl(bot_client))
 
     @events.time.periodic_interval(env.interval)
     async def process_inbound_messages():
@@ -140,3 +147,14 @@ class ElementsListenerImpl(ElementsActionListener):
                 }
             }
             await self.inbound_queue.put(msg_data)
+
+class ConnectionListenerImpl(ConnectionListener):
+    def __init__(self, sym_bot_client):
+        self.bot_client = sym_bot_client
+
+    async def on_connection_accepted(self, connection):
+        logging.debug('Connection Request Accepted: %s', connection)
+
+    async def on_connection_requested(self, connection):
+        logging.debug('Connection Request Received: %s', connection)
+

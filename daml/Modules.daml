@@ -10,5 +10,3 @@ import SymphonyIntegration.InboundDirectMessage()
 import SymphonyIntegration.InboundElementAction()
 
 import Examples.Proposal()
-
-import SymphonyIntegration.PingPongBot()
