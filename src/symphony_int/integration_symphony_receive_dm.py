@@ -4,18 +4,14 @@
 import logging
 
 import asyncio
-import time
 import json
 
 from dataclasses import dataclass
 
 from dazl import create
-from dazl.model.core import ContractData
 
 from daml_dit_api import \
     IntegrationEnvironment, IntegrationEvents
-
-from daml_dit_if.main.web import json_response
 
 from sym_api_client_python.clients.sym_bot_client import SymBotClient
 from sym_api_client_python.listeners.im_listener import IMListener
@@ -61,11 +57,8 @@ def integration_symphony_receive_dm_main(
 
     configure = SymObjectConfig(
             env.host, env.port, env.bot_username, env.bot_email, env.token_refresh_period)
-    # config = configure._makeConfig(env.host, env.port, env.bot_username, env.bot_email, env.token_refresh_period)
-    # configure._load_config(config) # getConfigDict())
 
     auth = SymBotRSAStringAuth(configure, env.private_key)
-            # getKey()) # env.private_key)
     auth.authenticate()
 
     bot_client = SymBotClient(auth, configure)
@@ -131,7 +124,6 @@ class ElementsListenerImpl(ElementsActionListener):
         if stream_type['streamType']['type'] == 'IM':
             form_id = SymElementsParser().get_form_id(action)
             stream_id = SymElementsParser().get_stream_id(action)
-            # message_id = SymElementsParser().get_form_message_id(action)
             button_action = SymElementsParser().get_action(action)
             form_contents = SymElementsParser().get_form_values(action)
             username = action['initiator']['user']['email']
@@ -157,4 +149,3 @@ class ConnectionListenerImpl(ConnectionListener):
 
     async def on_connection_requested(self, connection):
         logging.debug('Connection Request Received: %s', connection)
-

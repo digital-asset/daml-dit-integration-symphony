@@ -4,13 +4,13 @@
 catalog:
     name: dabl-integration-symphony
     group_id: com.digitalasset
-    version: 0.6.0
+    version: 0.1.0
     short_description: Symphony
     description: Symphony Send and Receive
     author: Digital Asset (Switzerland) GmbH
     license: Apache-2.0
     tags: [ integration ]
-    icon_file: slack-icon.svg
+    icon_file: symphony-icon.svg
 integration_types:
     - id: com.projectdabl.integrations.symphony
       name: Symphony Send and Receive Direct Messages

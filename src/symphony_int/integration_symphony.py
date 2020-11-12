@@ -63,7 +63,6 @@ def integration_symphony_main(
             env.host, env.port, env.bot_username, env.bot_email, env.token_refresh_period)
 
     auth = SymBotRSAStringAuth(configure, env.private_key)
-            # getKey()) # env.private_key)
     auth.authenticate()
 
     bot_client = SymBotClient(auth, configure)
