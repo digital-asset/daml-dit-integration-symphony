@@ -141,15 +141,18 @@ class ElementsListenerImpl(ElementsActionListener):
             button_action = SymElementsParser().get_action(action)
             form_contents = SymElementsParser().get_form_values(action)
             username = action['initiator']['user']['email']
+
+            id_split = form_id.split('::')
+            template_name = id_split[0]
             msg_data = {
-                'type': SYMPHONY.InboundElementAction,
+                'type': template_name,
                 'payload': {
                     'integrationParty': self.env.party,
                     'symphonyUser': username,
                     'symphonyStreamId': stream_id,
                     'formId': form_id,
-                    'action': button_action,
-                    'formJSON' : json.dumps(form_contents)
+                    'formAction': button_action,
+                    **form_contents
                 }
             }
             await self.inbound_queue.put(msg_data)
