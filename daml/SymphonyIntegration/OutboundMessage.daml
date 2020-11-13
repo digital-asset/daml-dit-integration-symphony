@@ -19,28 +19,4 @@ template OutboundMessage
         OutboundMessage_Retry : ContractId OutboundMessage
            do
              create this with
-               attemptCount = attemptCount + 1
-
-template OutboundMessageChannel
-  with
-    integrationParty : Party
-    sender           : Party
-    channelName      : Text
-    symphonyStreamId : Text
-  where
-    signatory integrationParty
-
-    key (integrationParty, channelName) : (Party, Text)
-    maintainer key._1
-
-    controller sender can
-        nonconsuming OutboundMessageChannel_SendMessage : ContractId OutboundMessage
-            with
-              messageText: Text
-            do
-              create OutboundMessage with
-                integrationParty
-                symphonyStreamId
-                messageText
-                attemptCount = 0
-
+              attemptCount = attemptCount + 1
