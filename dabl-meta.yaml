@@ -4,7 +4,7 @@
 catalog:
     name: dabl-integration-symphony
     group_id: com.digitalasset
-    version: 0.1.0
+    version: 0.2.0
     short_description: Symphony
     description: Symphony Send and Receive
     author: Digital Asset (Switzerland) GmbH
@@ -43,10 +43,6 @@ integration_types:
           name: Token refresh period
           description: Token refresh period
           field_type: text
-        - id: interval
-          name: Refresh interval
-          description: Interval at which to check for new messages
-          field_type: integer
     - id: com.projectdabl.integrations.symphony_receive_dm
       name: Symphony Receive Direct Message
       description: Allows direct messages sent to a Symphony bot to be recorded on the ledger
@@ -78,10 +74,6 @@ integration_types:
           name: Token refresh period
           description: Token refresh period
           field_type: text
-        - id: interval
-          name: Refresh interval
-          description: Interval at which to check for new messages
-          field_type: integer
     - id: com.projectdabl.integrations.symphony_send_message
       name: Symphony Send Message
       description: Allows outbound messages recorded on a ledger to be sent to Symphony

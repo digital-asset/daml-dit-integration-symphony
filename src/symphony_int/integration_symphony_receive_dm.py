@@ -10,7 +10,7 @@ from dataclasses import dataclass
 
 from dazl import create
 
-from daml_dit_api import \
+from daml_dit_if.api import \
     IntegrationEnvironment, IntegrationEvents
 
 from sym_api_client_python.clients.sym_bot_client import SymBotClient
@@ -41,19 +41,11 @@ class IntegrationSymphonyReceiveDMEnv(IntegrationEnvironment):
     bot_username : str
     bot_email : str
     token_refresh_period : int
-    interval : int
 
 
 def integration_symphony_receive_dm_main(
         env: 'IntegrationSymphonyReceiveDMEnv',
         events: 'IntegrationEvents'):
-
-    inbound_queue = asyncio.Queue()
-
-    async def dequeue_inbound() -> dict:
-        msg = await inbound_queue.get()
-        LOG.info(f"Dequeued inbound message: {msg}")
-        return msg
 
     configure = SymObjectConfig(
             env.host, env.port, env.bot_username, env.bot_email, env.token_refresh_period)
@@ -66,28 +58,19 @@ def integration_symphony_receive_dm_main(
     # Initialize datafeed service
     datafeed_event_service = bot_client.get_async_datafeed_event_service()
 
-    datafeed_event_service.add_im_listener(IMListenerImpl(env, inbound_queue))
+    datafeed_event_service.add_im_listener(IMListenerImpl(env))
+    datafeed_event_service.add_elements_listener(ElementsListenerImpl(bot_client, env))
     datafeed_event_service.add_connection_listener(ConnectionListenerImpl(bot_client))
 
-    @events.time.periodic_interval(env.interval)
-    async def process_inbound_messages():
-        if not inbound_queue.empty():
-            LOG.info(f"Will process {inbound_queue.qsize()} messages...")
-
-        commands = []
-        while not inbound_queue.empty():  # drain the queue
-            msg = await dequeue_inbound()
-            commands.append(create(msg['type'], msg['payload']))
-
-        return commands
-
+    @events.queue.message()
+    async def handle_message(message):
+        return [create(message['type'], message['payload'])]
 
     return datafeed_event_service.start_datafeed()
 
 class IMListenerImpl(IMListener):
-    def __init__(self, env: IntegrationSymphonyReceiveDMEnv, inbound_queue):
+    def __init__(self, env: IntegrationSymphonyReceiveDMEnv):
         self.env = env
-        self.inbound_queue = inbound_queue
         self.message_parser = SymMessageParser()
 
     async def on_im_message(self, im_message):
@@ -108,16 +91,15 @@ class IMListenerImpl(IMListener):
                 'messageText': msg_text
             }
         }
-        await self.inbound_queue.put(msg_data)
+        await self.env.queue.put(msg_data)
 
     async def on_im_created(self, im_created):
         logging.debug('IM created %s', im_created)
 
 class ElementsListenerImpl(ElementsActionListener):
-    def __init__(self, sym_bot_client: SymBotClient, env: IntegrationSymphonyReceiveDMEnv, inbound_queue):
+    def __init__(self, sym_bot_client: SymBotClient, env: IntegrationSymphonyReceiveDMEnv):
         self.bot_client = sym_bot_client
         self.env = env
-        self.inbound_queue = inbound_queue
 
     async def on_elements_action(self, action):
         stream_type = self.bot_client.get_stream_client().stream_info_v2(SymElementsParser().get_stream_id(action))
@@ -138,7 +120,7 @@ class ElementsListenerImpl(ElementsActionListener):
                     'formContents' : json.dumps(form_contents)
                 }
             }
-            await self.inbound_queue.put(msg_data)
+            await self.env.queue.put(msg_data)
 
 class ConnectionListenerImpl(ConnectionListener):
     def __init__(self, sym_bot_client):

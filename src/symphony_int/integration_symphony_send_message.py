@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 from dazl import exercise
 
-from daml_dit_api import \
+from daml_dit_if.api import \
     IntegrationEnvironment, IntegrationEvents
 
 from sym_api_client_python.clients.sym_bot_client import SymBotClient
