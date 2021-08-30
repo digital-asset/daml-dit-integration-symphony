@@ -27,8 +27,8 @@ from .rsa_string_auth import SymBotRSAStringAuth
 LOG = logging.getLogger('integration')
 
 class SYMPHONY:
-    InboundDirectMessage = 'SymphonyIntegration.InboundDirectMessage.InboundDirectMessage'
-    InboundElementAction = 'SymphonyIntegration.InboundElementAction.InboundElementAction'
+    InboundDirectMessage = 'SymphonyIntegration.InboundDirectMessage:InboundDirectMessage'
+    InboundElementAction = 'SymphonyIntegration.InboundElementAction:InboundElementAction'
     OutboundMessage = 'SymphonyIntegration.OutboundMessage:OutboundMessage'
     UserStream = 'Symphony:UserStream'
 
