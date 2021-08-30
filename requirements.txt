@@ -1,4 +1,3 @@
 ./lib/python-json-logger-0.1.11.tar.gz
 ./lib/yattag-1.12.2.tar.gz
-daml_dit_if==0.3.5
 sym-api-client-python==1.1.2
