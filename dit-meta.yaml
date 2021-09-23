@@ -4,7 +4,7 @@
 catalog:
     name: dabl-integration-symphony
     group_id: com.digitalasset
-    version: 0.2.2
+    version: 1.0.0
     short_description: Symphony
     description: Send and Receive messages and form elements through the Symphony messaging app
     author: Digital Asset (Switzerland) GmbH
@@ -18,7 +18,6 @@ integration_types:
       description: Allows direct messages sent and received to a Symphony bot to be recorded on the ledger
       entrypoint: symphony_int.integration_symphony:integration_symphony_main
       env_class: symphony_int.integration_symphony:IntegrationSymphonyEnv
-      runtime: python-direct
       fields:
         - id: host
           name: Host of symphony pod
@@ -49,7 +48,6 @@ integration_types:
       description: Allows direct messages sent to a Symphony bot to be recorded on the ledger
       entrypoint: symphony_int.integration_symphony_receive_dm:integration_symphony_receive_dm_main
       env_class: symphony_int.integration_symphony_receive_dm:IntegrationSymphonyReceiveDMEnv
-      runtime: python-direct
       fields:
         - id: host
           name: Host of symphony pod
@@ -80,7 +78,6 @@ integration_types:
       description: Allows outbound messages recorded on a ledger to be sent to Symphony
       entrypoint: symphony_int.integration_symphony_send_message:integration_symphony_send_main
       env_class: symphony_int.integration_symphony_send_message:IntegrationSymphonySendMessageEnv
-      runtime: python-direct
       fields:
         - id: host
           name: Host of symphony pod
