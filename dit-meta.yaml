@@ -4,7 +4,7 @@
 catalog:
     name: dabl-integration-symphony
     group_id: com.digitalasset
-    version: 1.0.0
+    version: 1.0.2
     short_description: Symphony
     description: Send and Receive messages and form elements through the Symphony messaging app
     author: Digital Asset (Switzerland) GmbH

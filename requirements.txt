@@ -1,3 +1,8 @@
+./lib/MarkupSafe-1.1.1.tar.gz
+./lib/cffi-1.14.6.tar.gz
+./lib/cryptography-3.4.8.tar.gz
+./lib/multidict-4.7.6.tar.gz
+./lib/yarl-1.7.0.tar.gz
 ./lib/python-json-logger-0.1.11.tar.gz
 ./lib/yattag-1.12.2.tar.gz
-sym-api-client-python==1.1.2
+./lib/sym_api_client_python-1.1.2.tar.gz
